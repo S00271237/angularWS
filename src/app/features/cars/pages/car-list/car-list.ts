@@ -5,10 +5,11 @@ import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Car } from '../../models/car.model';
 import { AsyncPipe } from '@angular/common';
+import { CarCard } from '../../../../car-card/car-card';
 
 @Component({
   selector: 'app-car-list',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, CarCard],
   templateUrl: './car-list.html',
   styleUrl: './car-list.scss',
 })
@@ -21,4 +22,5 @@ private carService = inject(CarService);
   ngOnInit(): void {
     this.cars$ = this.carService.getCars();
   }
+
 }
