@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
 import { CarService } from '../../services/car.service';
 import { inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Car } from '../../models/car.model';
 import { AsyncPipe } from '@angular/common';
 import { CarCard } from '../../../../car-card/car-card';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { withLoadState } from '../../../../shared/load-state';
 
 @Component({
   selector: 'app-car-list',
@@ -18,7 +16,8 @@ export class CarList  {
 
 private carService = inject(CarService);
   
-   cars = toSignal(this.carService.getCars());
+    state = toSignal(withLoadState(this.carService.getCars()), { requireSync: true });
 }
+
 
 

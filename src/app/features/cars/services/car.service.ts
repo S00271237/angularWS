@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Car } from '../models/car.model';
+import { Car, CreateCarDto } from '../models/car.model';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -27,12 +27,13 @@ getCars(): Observable<Car[]> {
      .pipe(catchError((err) => this.handleError(err)));
   }
 
-  addCar(car: Car): Observable<Car> {
+  addCar(car: CreateCarDto): Observable<Car> {
     return this.http.post<Car>(this.apiUrl, car)
       .pipe(
         catchError((err) => this.handleError(err))
       )
   }
+
 
 
   
