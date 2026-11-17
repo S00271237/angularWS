@@ -1,4 +1,5 @@
           <div class="grid">
-            @for (car of cars$ | async; track car._id) {
-             <app-car-card [car]="car" />
+            @for (car of cars(); track car._id) {
+              <app-car-card [car]="car" />
             }
+          </div>
