@@ -15,10 +15,11 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { input } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { forbiddenValue, notBlank } from '../shared/validators/not-blank.validator';
 
 @Component({
   selector: 'app-car-form',
-  imports: [ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, MatProgressBarModule],
+  imports: [ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, MatProgressBarModule, RouterLink],
   templateUrl: './car-form.html',
   styleUrl: './car-form.scss',
 })
@@ -34,8 +35,8 @@ export class CarForm implements OnInit {
   readonly currentYear = new Date().getFullYear();
 
   carForm = this.formBuilder.nonNullable.group({
-    make: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
-    model: ['', [Validators.required, Validators.maxLength(30)]],
+    make: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30), notBlank, forbiddenValue('test')]],
+    model: ['', [Validators.required, Validators.maxLength(30), notBlank, forbiddenValue('test')]],
     year: this.formBuilder.control<number | null>(null, [Validators.min(1950), Validators.max(this.currentYear + 1),]),
   });
 
@@ -58,7 +59,10 @@ export class CarForm implements OnInit {
 
   onSubmit(): void {
 
-
+    if(this.carForm.invalid) {
+      this.carForm.markAllAsTouched();
+      return;
+    }
     
 
     const { make, model, year } = this.carForm.getRawValue();

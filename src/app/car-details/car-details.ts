@@ -30,6 +30,11 @@ export class CarDetails {
 
   readonly initial: LoadState<Car> = { status: 'loading' };
 
+  readonly deleting = signal(false);
+  
+  readonly deleteError = signal<string | null>(null);
+
+
   state = toSignal(
     toObservable(this.id).pipe(
       switchMap((id) => withLoadState(this.carService.getCarById(id))),
@@ -37,15 +42,21 @@ export class CarDetails {
     { initialValue: this.initial },
   );
 
-  deleteCar(car: Car): void {
+deleteCar(car: Car): void {
   if (!confirm(`Delete ${car.make} ${car.model}?`)) return;
 
+  this.deleting.set(true);
+  this.deleteError.set(null);
 
   this.carService.deleteCar(car._id).subscribe({
     next: () => this.router.navigate(['/cars']),
-
+    error: (err: Error) => {
+      this.deleteError.set(err.message);
+      this.deleting.set(false);
+    },
   });
 }
+
 
 
 }

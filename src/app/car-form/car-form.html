@@ -5,18 +5,37 @@
   <mat-progress-bar mode="buffer" />
   }
 
-  <!-- Make Field -->
-  <mat-form-field appearance="outline">
-    <mat-label>Make</mat-label>
-    <input matInput formControlName="make" placeholder="e.g. Toyota" />
+<!-- Make Field -->
+<mat-form-field appearance="outline">
+  <mat-label>Make</mat-label>
+  <input matInput formControlName="make" placeholder="e.g. Toyota" />
+  @if (carForm.controls.make.hasError('required')) {
     <mat-error>Make is required</mat-error>
-  </mat-form-field>
+  } @else if (carForm.controls.make.hasError('blank')) {
+    <mat-error>Make cannot be only spaces</mat-error>
+  } @else if (carForm.controls.make.hasError('minlength')) {
+    <mat-error>Make must be at least 2 characters</mat-error>
+  } @else if (carForm.controls.make.hasError('maxlength')) {
+    <mat-error>Make must be 30 characters or fewer</mat-error>
+  } @else if (carForm.controls.make.hasError('forbiddenValue')) {
+    <mat-error>Make is a forbidden value</mat-error>
+  }
+</mat-form-field>
 
-  <!-- Model Field -->
-  <mat-form-field appearance="outline">
-    <mat-label>Model</mat-label>
-    <input matInput formControlName="model" placeholder="e.g. Corolla" />
-  </mat-form-field>
+<!-- Model Field -->
+<mat-form-field appearance="outline">
+  <mat-label>Model</mat-label>
+  <input matInput formControlName="model" placeholder="e.g. Corolla" />
+  @if (carForm.controls.model.hasError('required')) {
+    <mat-error>Model is required</mat-error>
+  } @else if (carForm.controls.model.hasError('blank')) {
+    <mat-error>Model cannot be only spaces</mat-error>
+  } @else if (carForm.controls.model.hasError('maxlength')) {
+    <mat-error>Model must be 30 characters or fewer</mat-error>
+  } @else if (carForm.controls.model.hasError('forbiddenValue')) {
+    <mat-error>Model is a forbidden value</mat-error>
+  }
+</mat-form-field>
 
   <!-- Year Field -->
   <mat-form-field appearance="outline">
@@ -31,18 +50,13 @@
     <button matButton="filled" type="submit" [disabled]="saving()">
       {{ saving() ? 'Saving...' : 'Save car' }}
     </button>
-    <a matButton routerLink="/cars">Cancel</a>
+    <a [routerLink]="['/cars']" matButton="outlined">Cancel</a>
+
   </div>
 
 
   <!-- Make Error Messages -->
-      @if (carForm.controls.make.hasError('required')) { 
-    <mat-error>Make is required</mat-error>
-  } @else if (carForm.controls.make.hasError('minlength')) {
-    <mat-error>Make must be at least 2 characters</mat-error>
-    } @else if (carForm.controls.make.hasError('maxlength')) {
-    <mat-error>Make must be 30 characters or fewer</mat-error>
-    }
+
 
 
 
