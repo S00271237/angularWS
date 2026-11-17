@@ -5,16 +5,26 @@ import { Car } from '../features/cars/models/car.model';
 import { CarService } from '../features/cars/services/car.service';
 import { LoadState, withLoadState } from '../shared/load-state';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-car-details',
-  imports: [],
+  imports: [RouterLink, MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, MatProgressBarModule],
   templateUrl: './car-details.html',
   styleUrl: './car-details.scss',
 })
 export class CarDetails {
 
   private carService = inject(CarService);
+
+  private readonly router = inject(Router);
+
 
   readonly id = input.required<string>();
 
@@ -26,6 +36,17 @@ export class CarDetails {
     ),
     { initialValue: this.initial },
   );
+
+  deleteCar(car: Car): void {
+  if (!confirm(`Delete ${car.make} ${car.model}?`)) return;
+
+
+  this.carService.deleteCar(car._id).subscribe({
+    next: () => this.router.navigate(['/cars']),
+
+  });
+}
+
 
 }
 
