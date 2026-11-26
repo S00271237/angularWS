@@ -3,6 +3,7 @@ import { CarList } from './features/cars/pages/car-list/car-list';
 import { CarForm } from './car-form/car-form';
 import { CarDetails } from './car-details/car-details';
 import { Register } from './features/auth/pages/register/register';
+import { LoginComponent } from './features/auth/pages/login/login';
 
 export const routes: Routes = [
   {
@@ -29,6 +30,10 @@ export const routes: Routes = [
   {
     path: 'register',
     component: Register
+  },
+  {
+    path: "login",
+    component: LoginComponent
   }
 
 
