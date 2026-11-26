@@ -10,7 +10,7 @@ import { RegisterUserDto, User } from '../models/user';
 })
 export class AuthCustomService {
 
-  private readonly apiUrl = 'http://localhost:3006/api/v1/register'; // this should be read from an env variable we will leave it for now.
+  private readonly apiUrl = 'http://localhost:3000/api/v1/auth/register'; // this should be read from an env variable we will leave it for now.
 
   private http = inject(HttpClient);
 
