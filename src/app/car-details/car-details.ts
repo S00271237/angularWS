@@ -12,6 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-car-details',
@@ -22,6 +24,7 @@ import { Router } from '@angular/router';
 export class CarDetails {
 
   private carService = inject(CarService);
+  private snackBar = inject(MatSnackBar);
 
   private readonly router = inject(Router);
 
@@ -50,13 +53,16 @@ deleteCar(car: Car): void {
 
   this.carService.deleteCar(car._id).subscribe({
     next: () => this.router.navigate(['/cars']),
-    error: (err: Error) => {
-      this.deleteError.set(err.message);
-      this.deleting.set(false);
-    },
+    error: () => this.openErrorSnackBar('Please login')
+
   });
 }
-
+  private openErrorSnackBar(message: string): void {
+    this.snackBar.open(message, 'Dismiss', {
+      duration: 15000,               // how long the snackbar stays visible (ms)
+      panelClass: ['error-snackbar'] // define this class in styles.scss
+    });
+  }
 
 
 }
